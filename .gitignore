@@ -1,0 +1,11 @@
+# ==================== #
+# By: Lmao stupid Cion #
+# ==================== #
+
+# <= Main => #
+.idea
+.gradle
+build
+gradle
+gradlew
+gradlew.bat
