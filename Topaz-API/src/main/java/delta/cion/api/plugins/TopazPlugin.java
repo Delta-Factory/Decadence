@@ -87,6 +87,10 @@ public class TopazPlugin {
 		}
 	}
 
+	public CommandNode getCommandNode() {
+		return this.commandNode;
+	}
+
 	public Logger getLogger() {
 		return this.pluginLogger;
 	}
