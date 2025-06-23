@@ -23,7 +23,10 @@ public class ServerInit {
 
 	public void start() {
 		SERVER.start(SERVER_ADDRESS);
+        consoleReader();
+	}
 
+	private void consoleReader() {
 		Thread console = new Thread(this::run, "CONSOLE_READER");
 		console.start();
 	}

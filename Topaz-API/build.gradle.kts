@@ -39,6 +39,7 @@ tasks {
 
 	build {
 		dependsOn(shadowJar)
+		dependsOn("publishToMavenLocal")
 	}
 
 	shadowJar {

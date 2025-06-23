@@ -1,6 +1,8 @@
 package delta.cion.server;
 
 import delta.cion.api.files.utils.FileSaver;
+import delta.cion.server.plugins.PluginData;
+import delta.cion.server.plugins.utils.PluginsData;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -11,6 +13,12 @@ import java.util.Properties;
 public class Topaz {
 
 	private static Properties SERVER_PROPERTIES;
+	private static PluginData PLUGIN_DATA;
+
+	public static PluginData getPluginData() {
+		if (PLUGIN_DATA != null) return PLUGIN_DATA;
+		return PLUGIN_DATA = new PluginData();
+	}
 
 	private static final ArrayList<String> CONFIGURATIONS = new ArrayList<>(Arrays.asList(
 		"server.properties",
