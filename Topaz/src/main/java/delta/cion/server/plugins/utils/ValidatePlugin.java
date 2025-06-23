@@ -47,8 +47,8 @@ public class ValidatePlugin {
 	private FileConfiguration loadYaml() {
 		try (JarFile jar = new JarFile(pluginJar)) {
 			JarEntry entry = new JarEntry(jar.getEntry("module.yaml"));
-			InputStream stream = jar.getInputStream(entry);
-			return FileConfiguration.load(new Yaml().load(stream));
+			try (InputStream stream = jar.getInputStream(entry)) {
+				return FileConfiguration.load(new Yaml().load(stream));}
 		} catch (IOException e) {
 			LOGGER.error(e.toString());
 			return null;

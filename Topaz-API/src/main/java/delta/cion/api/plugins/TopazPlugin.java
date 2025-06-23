@@ -25,9 +25,11 @@ public class TopazPlugin {
 		this.pluginID = pluginID;
 		this.pluginName = pluginName;
 		this.eventNode = EventNode.all(pluginID);
+		this.commandNode = new CommandNode(pluginID);
 		this.pluginDir = new File("plugins", pluginID);
 		this.configFile = new File(pluginDir, "config.yml");
 		this.pluginLogger = LoggerFactory.getLogger(pluginName);
+
 		preEnable();
 		onEnable();
 	}

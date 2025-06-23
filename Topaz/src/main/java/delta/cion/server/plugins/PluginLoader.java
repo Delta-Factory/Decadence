@@ -31,10 +31,7 @@ public class PluginLoader {
 			if (plugin == null) return;
 			PLUGINS.add(plugin);
 		}
-	}
-
-	public ArrayList<Plugin> getPluginsList() {
-		return PLUGINS;
+		PluginData.setPLUGINS(PLUGINS);
 	}
 
 	private boolean checkDir() {
