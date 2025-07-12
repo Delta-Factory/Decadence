@@ -1,4 +1,4 @@
-<H1 align="center">NecoMC</H1>
+<H1 align="center">Decadence</H1>
 
 <p align="center" style="font-size: 15px">
     <b>
