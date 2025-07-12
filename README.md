@@ -2,7 +2,7 @@
 
 <p align="center" style="font-size: 15px">
     <b>
-    This project created for <a href="https://wiki.necomc.com/">Neco</a>
+    This project created for <a href="https://discord.gg/MEBkvJbe4P">Project~Violette</a>
         <br>
         <br>
         Contributors:
