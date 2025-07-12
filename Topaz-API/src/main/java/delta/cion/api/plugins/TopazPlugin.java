@@ -2,6 +2,7 @@ package delta.cion.api.plugins;
 
 import delta.cion.api.commands.CommandNode;
 import delta.cion.api.files.configurations.FileConfiguration;
+import delta.cion.api.files.utils.Sender;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import java.io.*;
 
 public class TopazPlugin {
 
+	private boolean apiEnabled;
 	private String pluginID;
 	private String pluginName;
 	private EventNode<Event> eventNode;
@@ -21,17 +23,35 @@ public class TopazPlugin {
 	private CommandNode commandNode;
 	private Logger pluginLogger;
 
-	private void init(String pluginID, String pluginName) {
-		this.pluginID = pluginID;
-		this.pluginName = pluginName;
+	private String commandPrefix = null;
+	private File messageList = null;
+
+	/**
+	 * Main plugin class
+	 * Init main params and start onEnable() method
+	 * @param id is plugin utility name (used in commands and logic)
+	 * @param name is plugin human-readable name
+	 */
+	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) throws FileNotFoundException {
+		if (command != null && !command.isBlank()) commandPrefix = command;
+		else commandPrefix = id;
+		if (enableMsgList) enableMessageList();
+		this.pluginID = id;
+		this.pluginName = name;
 		this.eventNode = EventNode.all(pluginID);
 		this.commandNode = new CommandNode(pluginID);
 		this.pluginDir = new File("plugins", pluginID);
 		this.configFile = new File(pluginDir, "config.yml");
 		this.pluginLogger = LoggerFactory.getLogger(pluginName);
+		this.apiEnabled = apiStatus;
 
 		preEnable();
 		onEnable();
+	}
+
+	private final void enableMessageList() throws FileNotFoundException {
+		this.messageList = new File(pluginDir, "messages.yml");
+		Sender.setMessageList(this.messageList);
 	}
 
 	public final void disable() {
@@ -39,27 +59,27 @@ public class TopazPlugin {
 		onDisable();
 	}
 
-	public String getPluginID() {
+	public final String getPluginID() {
 		return this.pluginID;
 	}
 
-	public String getPluginName() {
+	public final String getPluginName() {
 		return this.pluginName;
 	}
 
-	public EventNode<Event> getEventNode() {
+	public final EventNode<Event> getEventNode() {
 		return this.eventNode;
 	}
 
-	public File getPluginDir() {
+	public final File getPluginDir() {
 		return this.pluginDir;
 	}
 
-	public File getConfigFile() {
+	public final File getConfigFile() {
 		return this.configFile;
 	}
 
-	public FileConfiguration getConfig() {
+	public final FileConfiguration getConfig() {
 		if (config != null) return config;
 		try (InputStream is = new FileInputStream(configFile)) {
 			config = new FileConfiguration(new Yaml().load(is));
@@ -70,7 +90,7 @@ public class TopazPlugin {
 		}
 	}
 
-	public void reloadConfig() {
+	public final void reloadConfig() {
 		try (InputStream is = new FileInputStream(configFile)) {
 			config = new FileConfiguration(new Yaml().load(is));
 		} catch (IOException e) {
@@ -78,7 +98,7 @@ public class TopazPlugin {
 		}
 	}
 
-	public void saveDefaultConfig() {
+	public final void saveDefaultConfig() {
 		try {
 			if (!configFile.exists() || configFile.isDirectory()) {
 				if (configFile.createNewFile()) getLogger().info("Base config file created!");
@@ -89,18 +109,24 @@ public class TopazPlugin {
 		}
 	}
 
-	public CommandNode getCommandNode() {
+	public final CommandNode getCommandNode() {
 		return this.commandNode;
 	}
 
-	public Logger getLogger() {
+	public final Logger getLogger() {
 		return this.pluginLogger;
 	}
 
 	// Basic
+	public void apiInit() {} // Used only if "contains-api" is true (in plugin.yml)
+	public void apiDisable() {} // Used only if "contains-api" is true (in plugin.yml)
 	public void onEnable() {}
 	public void onDisable() {}
 	// Other
-	public void preEnable() {}
-	public void preDisable() {}
+	public final void preEnable() {
+		if (apiEnabled) apiInit();
+	}
+	public final void preDisable() {
+		if (apiEnabled) apiDisable();
+	}
 }

@@ -1,8 +1,6 @@
 package delta.cion.server.plugins;
 
-import delta.cion.server.Topaz;
 import delta.cion.server.plugins.utils.Plugin;
-import delta.cion.server.plugins.utils.PluginsData;
 import delta.cion.server.plugins.utils.ValidatePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,49 +8,97 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PluginLoader {
 
-	private final Logger LOGGER = LoggerFactory.getLogger("PLUGIN_LOADER");
+	private static final Logger LOGGER = LoggerFactory.getLogger("MODULE_LOADER");
 
-	private final File PLUGINS_DIR = new File("plugins");
-	private final File[] JARS;
-	private final ArrayList<Plugin> PLUGINS;
-	private final PluginData DATA;
+	private static final File PLUGIN_DIR = new File("plugins");
 
-	public PluginLoader() {
-		JARS = PLUGINS_DIR.listFiles(isJar());
-		DATA = Topaz.getPluginData();
-		PLUGINS = new ArrayList<>();
-		if (!checkDir()) return;
-		if (JARS == null) return;
-	}
+	private static final Map<String, Plugin> PLUGIN_MAP = new HashMap<>();
+	private static final Map<String, File> PLUGIN_FILE_MAP = new HashMap<>();
+	private static final ArrayList<String> PLUGIN_IDS = new ArrayList<>();
 
-	public void loadPlugins() {
-		assert JARS != null;
-		for (File f : JARS) {
-			ValidatePlugin validator = new ValidatePlugin(f);
-			Plugin plugin = validator.getPlugin();
-			if (plugin == null) return;
-			PLUGINS.add(plugin);
-		}
-		DATA.setPLUGINS(PLUGINS);
-	}
-
-	private boolean checkDir() {
-		if (!PLUGINS_DIR.exists() || PLUGINS_DIR.isFile()) {
-			if (PLUGINS_DIR.mkdir()) return isFalse("Directory for plugins creates successful");
-			return isFalse("Cant create a plugins directory! Try to check permissions and restart this server!");
-		} else return true;
-	}
-
-	private FileFilter isJar() {
+	private static FileFilter isJar() {
 		return pathname -> pathname.getName().endsWith(".jar");
 	}
 
-	private boolean isFalse(String message) {
-		LOGGER.error(message);
-		return false;
+	public static void init() {
+		if (!checkDir()) return;
+
+		File[] jars = PLUGIN_DIR.listFiles(isJar());
+		if (jars == null) return;
+
+		for (File jarFile : jars) {
+			ValidatePlugin checker = new ValidatePlugin(jarFile);
+			LOGGER.info("Try to load {}", jarFile.getName());
+			Plugin plugin = checker.getPlugin();
+			if (plugin == null) continue;
+			if (PLUGIN_MAP.containsKey(plugin.id())) {
+				LOGGER.info("Unable to load two modules with one id!");
+				continue;
+			}
+
+			addToPluginIDS(plugin.id());
+			addToPluginMap(plugin.id(), plugin);
+			addToPluginFileMap(plugin.id(), jarFile);
+		}
 	}
 
+	public static void init(boolean isStart) {
+		init();
+		if (!isStart) return;
+		for (String id : PLUGIN_IDS) {
+			Controller.enablePlugin(id);
+		}
+	}
+
+	// IDs map
+	public static ArrayList<String> getPluginIDS() {
+		return PLUGIN_IDS;
+	}
+
+	public static void addToPluginIDS(String pluginID) {
+		PLUGIN_IDS.add(pluginID);
+	}
+
+	public static void removeFromPluginIDS(String pluginID) {
+		PLUGIN_IDS.remove(pluginID);
+	}
+
+	// Module map
+	public static Map<String, Plugin> getPluginMap() {
+		return PLUGIN_MAP;
+	}
+
+	public static void addToPluginMap(String pluginID, Plugin plugin) {
+		PLUGIN_MAP.put(pluginID, plugin);
+	}
+
+	public static void removeFromPluginMap(String pluginID) {
+		PLUGIN_MAP.remove(pluginID);
+	}
+
+	// Module file map
+	public static Map<String, File> getPluginFileMap() {
+		return PLUGIN_FILE_MAP;
+	}
+
+	public static void addToPluginFileMap(String pluginID, File pluginFile) {
+		PLUGIN_FILE_MAP.put(pluginID, pluginFile);
+	}
+
+	public static void removeFromPluginFileMao(String pluginID) {
+		PLUGIN_FILE_MAP.remove(pluginID);
+	}
+
+	private static boolean checkDir() {
+		if (!PLUGIN_DIR.exists() || PLUGIN_DIR.isFile()) {
+			if (PLUGIN_DIR.mkdir()) LOGGER.info("Dir for plugins created!");
+			else LOGGER.info("Cant create dir for plugins");
+			return false;
+		} else return true;
+	}
 }
