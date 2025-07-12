@@ -2,7 +2,7 @@
 // Lmao stupid Cion //
 // ================ //
 
-rootProject.name = "DECADANCE"
+rootProject.name = "DECADENCE"
 
 include("Topaz", "Topaz-API")
 include("Topaz-Plugin")

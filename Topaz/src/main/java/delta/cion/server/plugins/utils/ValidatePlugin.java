@@ -52,7 +52,7 @@ public class ValidatePlugin {
 
 	private FileConfiguration loadYaml() {
 		try (JarFile jar = new JarFile(pluginJar)) {
-			JarEntry entry = new JarEntry(jar.getEntry("module.yml"));
+			JarEntry entry = new JarEntry(jar.getEntry("plugin.yml"));
 			try (InputStream stream = jar.getInputStream(entry)) {
 				return FileConfiguration.load(new Yaml().load(stream));}
 		} catch (IOException e) {
