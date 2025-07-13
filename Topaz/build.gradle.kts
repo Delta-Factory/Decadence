@@ -28,7 +28,7 @@ tasks {
 	}
 
 	shadowJar {
-		dependsOn(":Ruby_API:shadowJar")
+		dependsOn(":Topaz-API:shadowJar")
 		mergeServiceFiles()
 		archiveClassifier.set("")
 	}

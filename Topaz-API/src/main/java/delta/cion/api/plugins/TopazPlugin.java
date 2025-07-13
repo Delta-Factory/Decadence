@@ -1,6 +1,6 @@
 package delta.cion.api.plugins;
 
-import delta.cion.api.commands.CommandNode;
+import delta.cion.api.nodes.CommandNode;
 import delta.cion.api.files.configurations.FileConfiguration;
 import delta.cion.api.files.utils.Sender;
 import net.minestom.server.event.Event;
