@@ -113,6 +113,10 @@ public class TopazPlugin {
 		return this.pluginLogger;
 	}
 
+	public final SenderUtils getSenderUtils() {
+		return this.senderUtils;
+	}
+
 	// Basic
 	public void apiInit() {} // Used only if "contains-api" is true (in plugin.yml)
 	public void apiDisable() {} // Used only if "contains-api" is true (in plugin.yml)
