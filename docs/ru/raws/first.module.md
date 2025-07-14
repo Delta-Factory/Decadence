@@ -14,5 +14,5 @@
 		Будет что-то типо:
 		``delta.cion.api:topaz_api:0.0.0-DEV``
 		<br>
-		![Строка импорта api](../../../img/docs/ApiImportStringSample.png)
+		<img src="../../../img/docs/ApiImportStringSample.png" alt="Строка импорта api">
 	</p>
