@@ -40,8 +40,8 @@ public class ValidatePlugin {
 		this.mainClass = DATA.getString("main-class");
 		this.softDepends = DATA.getStringList("soft-depends");
 		this.commandPrefix = DATA.getString("command-prefix");
-		this.enableMsgList = DATA.getBoolean("message-list");
-		this.enableApi = DATA.getBoolean("contains-api");
+		this.enableMsgList = DATA.getBoolean("message-list", false);
+		this.enableApi = DATA.getBoolean("contains-api", false);
 
 		if (check(id)) return isFalse("Plugin id is null!");
 		if (check(name)) return isFalse("Plugin name is null!");

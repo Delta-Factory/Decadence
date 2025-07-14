@@ -1,8 +1,9 @@
 package delta.cion.api.plugins;
 
+import delta.cion.api.files.utils.FileSaver;
 import delta.cion.api.nodes.CommandNode;
 import delta.cion.api.files.configurations.FileConfiguration;
-import delta.cion.api.files.utils.Sender;
+import delta.cion.api.files.utils.SenderUtils;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class TopazPlugin {
 	private FileConfiguration config;
 	private CommandNode commandNode;
 	private Logger pluginLogger;
+	private SenderUtils senderUtils;
 
 	private String commandPrefix = null;
 	private File messageList = null;
@@ -49,9 +51,9 @@ public class TopazPlugin {
 		onEnable();
 	}
 
-	private final void enableMessageList() throws FileNotFoundException {
-		this.messageList = new File(pluginDir, "messages.yml");
-		Sender.setMessageList(this.messageList);
+	private void enableMessageList() throws FileNotFoundException {
+		FileSaver.saveFromResources("messages.yml");
+		this.senderUtils = new SenderUtils(new File("messages.yml"));
 	}
 
 	public final void disable() {
@@ -99,14 +101,8 @@ public class TopazPlugin {
 	}
 
 	public final void saveDefaultConfig() {
-		try {
-			if (!configFile.exists() || configFile.isDirectory()) {
-				if (configFile.createNewFile()) getLogger().info("Base config file created!");
-				else getLogger().info("Cant create base config file!");
-			}
-		} catch (IOException e) {
-			getLogger().error(e.toString());
-		}
+		if (!configFile.exists() || configFile.isDirectory())
+			FileSaver.saveFromResources("config.yml");
 	}
 
 	public final CommandNode getCommandNode() {
