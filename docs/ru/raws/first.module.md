@@ -3,16 +3,16 @@
 		Вообще тут будут описаны лишь основы разработки под это ядро, тк большая часть смешна с разработкой на либе Minestom (На которой это ядро и написано).
 	</p>
 <h3 align="center">О Topaz-API</h3>
-	<p align="center">
+	<p>
 		Такс.. Пока самой апишки нет на maven репозиториях - Вам придется либо скопировать её в проект, либо самостоятельно сбилдить.
 		<br>
 		Для билда - Можно прописать:
-		``./gradlew :Topaz-API:publishToMavenLocal``
+		`./gradlew :Topaz-API:publishToMavenLocal`
 		<br><br>
 		Строка, требуемая для импорта в проект будет выведена во время билда.
 		<br>
 		Будет что-то типо:
-		``delta.cion.api:topaz_api:0.0.0-DEV``
+		`delta.cion.api:topaz_api:0.0.0-DEV`
 		<br>
 		<img src="../../../img/docs/ApiImportStringSample.png" alt="Строка импорта api">
 	</p>
