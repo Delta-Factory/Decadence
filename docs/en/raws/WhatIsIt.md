@@ -8,16 +8,16 @@
     Purple color don`t work on github!
 </p>
 
---- 
+---
 <p align="center">
     <b>
         ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼
     </b>
     <br>
-    <img alt="MegaScreenshot3000" src="../../img/docs/LmaoPurpleColor.png">
+    <img alt="MegaScreenshot3000" src="../../../img/docs/LmaoPurpleColor.png">
     <br>
     <b>
-        ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ 
+        ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲
     </b>
 </p>
 
@@ -25,7 +25,7 @@
 ---
 
 <p align="center">
-<a href="../../README.md"> << Go back</a>
+<a href="../../../README.md"> << Go back</a>
 |
-<a href="./core.progress.md"> Next page >> </a>
+<a href="core.progress.md"> Next page >> </a>
 </p>
