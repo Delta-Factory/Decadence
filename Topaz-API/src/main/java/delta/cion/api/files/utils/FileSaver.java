@@ -18,6 +18,10 @@ public class FileSaver {
 		save(pathToFile, pathToSave, false);
 	}
 
+	public static void saveFromResources(String pathToFile, boolean replaceFile) {
+		save(pathToFile, pathToFile, replaceFile);
+	}
+
 	public static void saveFromResources(String pathToFile, String pathToSave, boolean replaceFile) {
 		save(pathToFile, pathToSave, replaceFile);
 	}

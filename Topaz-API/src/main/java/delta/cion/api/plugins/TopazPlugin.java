@@ -102,7 +102,7 @@ public class TopazPlugin {
 
 	public final void saveDefaultConfig() {
 		if (!configFile.exists() || configFile.isDirectory())
-			FileSaver.saveFromResources("config.yml");
+			FileSaver.saveFromResources("config.yml", false);
 	}
 
 	public final CommandNode getCommandNode() {
