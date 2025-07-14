@@ -22,9 +22,9 @@
 ---
 
 <p align="center">
-<a href="../../README.md"> << Go back</a>
+<a href="../../../README.md"> << Go back</a>
 |
-<a href="../../README.md">Go home</a>
+<a href="../../../../README.md">Go home</a>
 |
-<a href="./core.progress.md"> Next page >> </a>
+<a href="core.progress.md"> Next page >> </a>
 </p>

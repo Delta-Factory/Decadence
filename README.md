@@ -27,7 +27,9 @@
 <p align="center">
     Read the docs plz...
 	<br>
-	[<a href="./docs/raws/WhatIsIt.md">DOGS <3</a>]
+	[<a href="docs/en/raws/WhatIsIt.md">DOGS <3 (en)</a>]
+	<br>
+	[<a href="docs/ru/raws/WhatIsIt.md">DOGS <3 (ru)</a>]
 </p>
 
 ---
