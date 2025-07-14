@@ -1,11 +1,11 @@
 <h1 align="center">What is it?</h1>
 
 <p align="center" style="font-size: 15px; color: #FF00AA">
-    It`s a raw docs.
+    Это сырая версия документации. Тк она в данный момент не в приоритете - Вы будете читать именно это.
     <br>
-    AND IT`S A PURPLE TEXT!!! YAY!
+    И ФИОЛЕТОВЫЙ ТЕКСТ!!!
     <br>
-    Purple color don`t work on github!
+    Он не работает на гитхабе..
 </p>
 
 ---
