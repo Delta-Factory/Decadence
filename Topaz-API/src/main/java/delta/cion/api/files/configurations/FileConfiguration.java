@@ -45,6 +45,16 @@ public class FileConfiguration extends BaseConfiguration {
 	}
 
 	@Override
+	public Integer[] getIntList(String path) {
+		return (Integer[]) get(path);
+	}
+
+	@Override
+	public Integer[] getIntList(String path, Integer[] def) {
+		return (Integer[]) get(path, def);
+	}
+
+	@Override
 	public int getInt(String path) {
 		return (int) get(path);
 	}

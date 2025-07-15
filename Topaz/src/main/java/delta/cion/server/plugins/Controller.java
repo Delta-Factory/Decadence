@@ -39,7 +39,7 @@ public class Controller {
 			String mainClass = plugin.mainClass();
 			boolean apiStatus = plugin.apiStatus();
 			Class<?> clazz = Class.forName(mainClass, true, classLoader);
-			if (!Plugin.class.isAssignableFrom(clazz)) {
+			if (!TopazPlugin.class.isAssignableFrom(clazz)) {
 				LOGGER.error("Cant load {}. It module main class dont extend #TopazPlugin()", moduleName);
 				return false;
 			}

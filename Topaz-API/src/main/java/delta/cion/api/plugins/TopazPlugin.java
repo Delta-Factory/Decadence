@@ -37,23 +37,29 @@ public class TopazPlugin {
 	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) throws FileNotFoundException {
 		if (command != null && !command.isBlank()) commandPrefix = command;
 		else commandPrefix = id;
-		if (enableMsgList) enableMessageList();
+
 		this.pluginID = id;
 		this.pluginName = name;
-		this.eventNode = EventNode.all(pluginID);
-		this.commandNode = new CommandNode(pluginID);
+		this.apiEnabled = apiStatus;
+
 		this.pluginDir = new File("plugins", pluginID);
+		if (!pluginDir.exists()) pluginDir.mkdirs();
+
+		if (enableMsgList) enableMessageList();
 		this.configFile = new File(pluginDir, "config.yml");
 		this.pluginLogger = LoggerFactory.getLogger(pluginName);
-		this.apiEnabled = apiStatus;
+
+		this.eventNode = EventNode.all(pluginID);
+		this.commandNode = new CommandNode(pluginID);
 
 		preEnable();
 		onEnable();
 	}
 
 	private void enableMessageList() throws FileNotFoundException {
-		FileSaver.saveFromResources("messages.yml");
-		this.senderUtils = new SenderUtils(new File("messages.yml"));
+		File messagesFile = new File(pluginDir, "messages.yml");
+		FileSaver.saveFromResources("messages.yml", messagesFile);
+		this.senderUtils = new SenderUtils(messagesFile);
 	}
 
 	public final void disable() {
@@ -83,12 +89,14 @@ public class TopazPlugin {
 
 	public final FileConfiguration getConfig() {
 		if (config != null) return config;
+		if (!configFile.exists()) saveDefaultConfig();
+
 		try (InputStream is = new FileInputStream(configFile)) {
 			config = new FileConfiguration(new Yaml().load(is));
 			return config;
 		} catch (IOException e) {
-			getLogger().error(e.toString());
-			return null;
+			getLogger().error("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
+			throw new RuntimeException("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
 		}
 	}
 
@@ -101,8 +109,9 @@ public class TopazPlugin {
 	}
 
 	public final void saveDefaultConfig() {
-		if (!configFile.exists() || configFile.isDirectory())
-			FileSaver.saveFromResources("config.yml", false);
+		if (!configFile.exists() || configFile.isDirectory()) {
+			FileSaver.saveFromResources("config.yml", configFile);
+		}
 	}
 
 	public final CommandNode getCommandNode() {

@@ -1,6 +1,9 @@
 package delta.cion.server;
 
 import delta.cion.api.files.utils.FileSaver;
+import delta.cion.api.nodes.CommandNode;
+import delta.cion.server.commands.ModulesReload;
+import delta.cion.server.commands.ServerStop;
 import delta.cion.server.plugins.PluginLoader;
 
 import java.net.InetSocketAddress;
@@ -15,13 +18,21 @@ public class Topaz {
 
 	private static final ArrayList<String> CONFIGURATIONS = new ArrayList<>(Arrays.asList(
 		"server.properties",
-		"decadence.config.yml",
-		"proxies.yml"
+		"decadence.config.yml"
 	));
 
 	public static void main(String[] args) {
 		saveConfigs();
+		regCommands();
 		init();
+	}
+
+	private static void regCommands() {
+		CommandNode commandNode = new CommandNode("topaz_server");
+
+		commandNode.addToNode(new ServerStop());
+		commandNode.addToNode(new ModulesReload());
+		commandNode.registerNode();
 	}
 
 	private static void saveConfigs() {

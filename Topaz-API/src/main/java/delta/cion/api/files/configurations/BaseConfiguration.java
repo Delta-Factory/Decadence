@@ -11,6 +11,9 @@ public abstract class BaseConfiguration {
 	public abstract String[] getStringList(String path);
 	public abstract String[] getStringList(String path, String[] def);
 
+	public abstract Integer[] getIntList(String path);
+	public abstract Integer[] getIntList(String path, Integer[] def);
+
 	public abstract int getInt(String path);
 	public abstract int getInt(String path, int def);
 
