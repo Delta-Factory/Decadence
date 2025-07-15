@@ -7,78 +7,68 @@ import java.io.*;
 import java.util.Properties;
 
 public class FileSaver {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger("FILE_SAVER");
 
-	//laps1
-	public static void saveFromResources(String pathToFile) {
-		LOGGER.info("Saving {} with #laps1", pathToFile);
-		save(pathToFile, pathToFile, false);
+	public static void saveFromResources(String resourcePath) {
+		saveFromResources(resourcePath, resourcePath, false);
 	}
 
-	//laps2
-	public static void saveFromResources(String pathToFile, String pathToSave) {
-		LOGGER.info("Saving {} with #laps2", pathToFile);
-		save(pathToFile, pathToSave, false);
+	public static void saveFromResources(String resourcePath, String outputPath) {
+		saveFromResources(resourcePath, outputPath, false);
 	}
 
-	//laps2.5
-	public static void saveFromResources(String pathToFile, File pathToSave) {
-		LOGGER.info("Saving {} with #laps2.5", pathToFile);
-		String pathToSave1 = pathToSave.getAbsolutePath();
-		save(pathToFile, pathToSave1, false);
+	public static void saveFromResources(String resourcePath, File outputFile) {
+		saveFromResources(resourcePath, outputFile.getAbsolutePath(), false);
 	}
 
-	//laps3
-	public static void saveFromResources(String pathToFile, boolean replaceFile) {
-		LOGGER.info("Saving {} with #laps3", pathToFile);
-		save(pathToFile, pathToFile, replaceFile);
+	public static void saveFromResources(String resourcePath, boolean replace) {
+		saveFromResources(resourcePath, resourcePath, replace);
 	}
 
-	//laps4
-	public static void saveFromResources(String pathToFile, String pathToSave, boolean replaceFile) {
-		LOGGER.info("Saving {} with #laps4", pathToFile);
-		save(pathToFile, pathToSave, replaceFile);
+	public static void saveFromResources(String resourcePath, String outputPath, boolean replace) {
+		saveFromResources(resourcePath, new File(outputPath), replace);
 	}
 
-	//laps5
-	private static void save(String pathToFile, String pathToSave, boolean replaceFile) {
-		LOGGER.info("Saving {} with #laps5", pathToFile);
-		if (!replaceFile && fileExists(new File(pathToFile))) return;
+	public static void saveFromResources(String resourcePath, File outputFile, boolean replace) {
+		if (!replace && outputFile.exists()) return;
 
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		try (InputStream inputStream = classLoader.getResourceAsStream(pathToFile)) {
-			if (inputStream == null) LOGGER.error("File {} not found!", pathToFile);
+		File parentDir = outputFile.getParentFile();
+		if (parentDir != null && !parentDir.exists()) {
+			if (!parentDir.mkdirs()) return;
+		}
+
+		try (InputStream inputStream = getResourceAsStream(resourcePath)) {
 			if (inputStream == null) return;
-			try (OutputStream outputStream = new FileOutputStream(pathToSave)) {
+
+			try (OutputStream outputStream = new FileOutputStream(outputFile)) {
 				byte[] buffer = new byte[4096];
-				int n;
-				while ((n = inputStream.read(buffer)) != -1) {
-					outputStream.write(buffer, 0, n);
+				int bytesRead;
+				while ((bytesRead = inputStream.read(buffer)) != -1) {
+					outputStream.write(buffer, 0, bytesRead);
 				}
 			}
 		} catch (IOException e) {
-			LOGGER.error(e.toString());
+			LOGGER.error("Saving error for {} in {}!", resourcePath, outputFile, e);
 		}
-
 	}
 
-	//laps6
+	private static InputStream getResourceAsStream(String resourcePath) {
+		InputStream inputStream = FileSaver.class.getClassLoader().getResourceAsStream(resourcePath);
+		if (inputStream == null) return Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcePath);
+		return inputStream;
+	}
+
 	public static Properties loadProperties(String path) {
-		try (InputStream is = new FileInputStream(path)) {
+		File file = new File(path);
+		if (!file.exists()) return null;
+
+		try (InputStream is = new FileInputStream(file)) {
 			Properties properties = new Properties();
 			properties.load(is);
 			return properties;
 		} catch (Exception e) {
+			LOGGER.error("Cannot load property {}!", path, e);
 			return null;
 		}
 	}
-
-	//laps7
-	private static boolean fileExists(File file) {
-		if (!file.exists()) return false;
-		LOGGER.info("File {} is exists!", file.getName());
-		return true;
-	}
-
 }
