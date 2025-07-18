@@ -1,5 +1,6 @@
 package delta.cion.api.files.configurations;
 
+import java.util.List;
 import java.util.Map;
 
 public class FileConfiguration extends BaseConfiguration {
@@ -36,22 +37,46 @@ public class FileConfiguration extends BaseConfiguration {
 
 	@Override
 	public String[] getStringList(String path) {
-		return (String[]) get(path);
+		Object value = get(path);
+		return convertToStringArray(value);
 	}
 
 	@Override
 	public String[] getStringList(String path, String[] def) {
-		return (String[]) get(path, def);
+		Object value = get(path, def);
+		if (value == null) return def;
+		return convertToStringArray(value);
+	}
+
+	private String[] convertToStringArray(Object value) {
+		if (value instanceof String) return new String[]{(String) value};
+		if (value instanceof String[]) return (String[]) value;
+		if (!(value instanceof List)) return new String[0];
+		@SuppressWarnings("unchecked")
+		List<String> list = (List<String>) value;
+		return list.toArray(new String[0]);
 	}
 
 	@Override
 	public Integer[] getIntList(String path) {
-		return (Integer[]) get(path);
+		Object value = get(path);
+		return convertToIntegerArray(value);
 	}
 
 	@Override
 	public Integer[] getIntList(String path, Integer[] def) {
-		return (Integer[]) get(path, def);
+		Object value = get(path, def);
+		if (value == null) return def;
+		return convertToIntegerArray(value);
+	}
+
+	private Integer[] convertToIntegerArray(Object value) {
+		if (value instanceof Integer) return new Integer[]{(Integer) value};
+		if (value instanceof Integer[]) return (Integer[]) value;
+		if (!(value instanceof List)) return new Integer[0];
+		@SuppressWarnings("unchecked")
+		List<String> list = (List<String>) value;
+		return list.toArray(new Integer[0]);
 	}
 
 	@Override

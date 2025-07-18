@@ -1,32 +1,50 @@
 package delta.cion.api.files.utils;
 
+import delta.cion.api.plugins.TopazPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
 public class FileSaver {
 	private static final Logger LOGGER = LoggerFactory.getLogger("FILE_SAVER");
 
 	public static void saveFromResources(String resourcePath) {
-		saveFromResources(resourcePath, resourcePath, false);
+		saveFromResources(resourcePath, new File(resourcePath), false);
 	}
 
-	public static void saveFromResources(String resourcePath, String outputPath) {
-		saveFromResources(resourcePath, outputPath, false);
+	public static void saveFromResources(String resourcePath, TopazPlugin plugin) {
+		saveFromResources(resourcePath, resourcePath, false, plugin);
 	}
 
-	public static void saveFromResources(String resourcePath, File outputFile) {
-		saveFromResources(resourcePath, outputFile.getAbsolutePath(), false);
+	public static void saveFromResources(String resourcePath, String outputPath, TopazPlugin plugin) {
+		saveFromResources(resourcePath, outputPath, false, plugin);
 	}
 
-	public static void saveFromResources(String resourcePath, boolean replace) {
-		saveFromResources(resourcePath, resourcePath, replace);
+	public static void saveFromResources(String resourcePath, File outputFile, TopazPlugin plugin) {
+		saveFromResources(resourcePath, outputFile.getAbsolutePath(), false, plugin);
 	}
 
-	public static void saveFromResources(String resourcePath, String outputPath, boolean replace) {
-		saveFromResources(resourcePath, new File(outputPath), replace);
+	public static void saveFromResources(String resourcePath, boolean replace, TopazPlugin plugin) {
+		saveFromResources(resourcePath, resourcePath, replace, plugin);
+	}
+
+	public static void saveFromResources(String resourcePath, String outputPath, boolean replace, TopazPlugin plugin) {
+		saveFromResources(resourcePath, new File(outputPath), replace, plugin);
+	}
+
+	private static InputStream getResourceAsStream(String resourcePath) {
+		for (ClassLoader loader : getClassloaders()) {
+			InputStream input = loader.getResourceAsStream(resourcePath);
+			if (input != null) LOGGER.info("Found file {}... Saving", resourcePath);
+			if (input != null) return input;
+		}
+		LOGGER.warn("File {} not found", resourcePath);
+		return null;
 	}
 
 	public static void saveFromResources(String resourcePath, File outputFile, boolean replace) {
@@ -52,10 +70,16 @@ public class FileSaver {
 		}
 	}
 
-	private static InputStream getResourceAsStream(String resourcePath) {
-		InputStream inputStream = FileSaver.class.getClassLoader().getResourceAsStream(resourcePath);
-		if (inputStream == null) return Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcePath);
-		return inputStream;
+	public static void saveFromResources(String resourcePath, File outputPath, boolean replace, TopazPlugin plugin) {
+		if (!replace && outputPath.exists()) return;
+		URL resourceUrl = plugin.getClass().getClassLoader().getResource(resourcePath);
+		if (resourceUrl == null) LOGGER.warn("File {} not found", resourcePath);
+		if (resourceUrl == null) return;
+		try (InputStream is = resourceUrl.openStream()) {
+			Files.copy(is, outputPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			LOGGER.error("Cannot save {} in {}!", resourcePath, outputPath, e);
+		}
 	}
 
 	public static Properties loadProperties(String path) {
@@ -70,5 +94,13 @@ public class FileSaver {
 			LOGGER.error("Cannot load property {}!", path, e);
 			return null;
 		}
+	}
+
+	private static ClassLoader[] getClassloaders() {
+		return new ClassLoader[]{
+			FileSaver.class.getClassLoader(),
+			Thread.currentThread().getContextClassLoader(),
+			ClassLoader.getSystemClassLoader()
+		};
 	}
 }

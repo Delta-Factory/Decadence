@@ -34,7 +34,7 @@ public class TopazPlugin {
 	 * @param id is plugin utility name (used in commands and logic)
 	 * @param name is plugin human-readable name
 	 */
-	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) throws FileNotFoundException {
+	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) {
 		if (command != null && !command.isBlank()) commandPrefix = command;
 		else commandPrefix = id;
 
@@ -52,14 +52,15 @@ public class TopazPlugin {
 		this.eventNode = EventNode.all(pluginID);
 		this.commandNode = new CommandNode(pluginID);
 
+		finalChecks();
 		preEnable();
 		onEnable();
 	}
 
-	private void enableMessageList() throws FileNotFoundException {
-		File messagesFile = new File(pluginDir, "messages.yml");
-		FileSaver.saveFromResources("messages.yml", messagesFile);
-		this.senderUtils = new SenderUtils(messagesFile);
+	private void enableMessageList() {
+		this.messageList = new File(pluginDir, "messages.yml");
+		FileSaver.saveFromResources("messages.yml", this.messageList, this);
+		this.senderUtils = new SenderUtils(this.messageList);
 	}
 
 	public final void disable() {
@@ -88,12 +89,12 @@ public class TopazPlugin {
 	}
 
 	public final FileConfiguration getConfig() {
-		if (config != null) return config;
+		if (this.config != null) return config;
 		if (!configFile.exists()) saveDefaultConfig();
 
 		try (InputStream is = new FileInputStream(configFile)) {
-			config = new FileConfiguration(new Yaml().load(is));
-			return config;
+			this.config = new FileConfiguration(new Yaml().load(is));
+			return this.config;
 		} catch (IOException e) {
 			getLogger().error("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
 			throw new RuntimeException("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
@@ -102,7 +103,7 @@ public class TopazPlugin {
 
 	public final void reloadConfig() {
 		try (InputStream is = new FileInputStream(configFile)) {
-			config = new FileConfiguration(new Yaml().load(is));
+			this.config = new FileConfiguration(new Yaml().load(is));
 		} catch (IOException e) {
 			getLogger().error(e.toString());
 		}
@@ -110,7 +111,7 @@ public class TopazPlugin {
 
 	public final void saveDefaultConfig() {
 		if (!configFile.exists() || configFile.isDirectory()) {
-			FileSaver.saveFromResources("config.yml", configFile);
+			FileSaver.saveFromResources("config.yml", configFile, this);
 		}
 	}
 
@@ -124,6 +125,24 @@ public class TopazPlugin {
 
 	public final SenderUtils getSenderUtils() {
 		return this.senderUtils;
+	}
+
+	private void finalChecks() {
+		checker(apiEnabled,		"apiEnabled");
+		checker(pluginID, 		"pluginID");
+		checker(pluginName, 	"pluginName");
+		checker(eventNode, 		"eventNode");
+		checker(pluginDir, 		"pluginDir");
+		checker(configFile, 	"configFile");
+		checker(commandNode,	"commandNode");
+		checker(pluginLogger,	"pluginLogger");
+		checker(senderUtils,	"senderUtils");
+		checker(commandPrefix, 	"commandPrefix");
+		checker(messageList, 	"messageList");
+	}
+
+	private void checker(Object object, String whatIs) {
+		if (object == null) getLogger().debug("{} not found in ({}) TopazPlugin#finalChecker", whatIs, pluginName);
 	}
 
 	// Basic
