@@ -14,7 +14,9 @@
     </b>
 </p>
 
-<H1 align="center">For developers</H1>
+---
+
+<H2 align="center">For developers</H2>
 
 <p align="center">
     Read the docs plz...
