@@ -17,7 +17,7 @@ public class ServerInit {
 	private final SocketAddress SERVER_ADDRESS;
 
 	public ServerInit(SocketAddress serverAddress) {
-		MinecraftServer.setBrandName("Topaz");
+		MinecraftServer.setBrandName("DECADENCE");
 		this.SERVER_ADDRESS = serverAddress;
 	}
 

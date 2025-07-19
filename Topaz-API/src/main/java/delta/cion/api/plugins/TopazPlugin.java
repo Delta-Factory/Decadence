@@ -1,8 +1,9 @@
 package delta.cion.api.plugins;
 
+import delta.cion.api.files.utils.FileSaver;
 import delta.cion.api.nodes.CommandNode;
 import delta.cion.api.files.configurations.FileConfiguration;
-import delta.cion.api.files.utils.Sender;
+import delta.cion.api.files.utils.SenderUtils;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ public class TopazPlugin {
 	private FileConfiguration config;
 	private CommandNode commandNode;
 	private Logger pluginLogger;
+	private SenderUtils senderUtils;
 
 	private String commandPrefix = null;
 	private File messageList = null;
@@ -32,26 +34,33 @@ public class TopazPlugin {
 	 * @param id is plugin utility name (used in commands and logic)
 	 * @param name is plugin human-readable name
 	 */
-	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) throws FileNotFoundException {
+	public final void init(String id, String name, String command, boolean enableMsgList, boolean apiStatus) {
 		if (command != null && !command.isBlank()) commandPrefix = command;
 		else commandPrefix = id;
-		if (enableMsgList) enableMessageList();
+
 		this.pluginID = id;
 		this.pluginName = name;
-		this.eventNode = EventNode.all(pluginID);
-		this.commandNode = new CommandNode(pluginID);
-		this.pluginDir = new File("plugins", pluginID);
-		this.configFile = new File(pluginDir, "config.yml");
-		this.pluginLogger = LoggerFactory.getLogger(pluginName);
 		this.apiEnabled = apiStatus;
 
+		this.pluginDir = new File("plugins", pluginID);
+		if (!pluginDir.exists()) pluginDir.mkdirs();
+
+		if (enableMsgList) enableMessageList();
+		this.configFile = new File(pluginDir, "config.yml");
+		this.pluginLogger = LoggerFactory.getLogger(pluginName);
+
+		this.eventNode = EventNode.all(pluginID);
+		this.commandNode = new CommandNode(pluginID);
+
+		finalChecks();
 		preEnable();
 		onEnable();
 	}
 
-	private final void enableMessageList() throws FileNotFoundException {
+	private void enableMessageList() {
 		this.messageList = new File(pluginDir, "messages.yml");
-		Sender.setMessageList(this.messageList);
+		saveFromResources("messages.yml", this.messageList.getAbsolutePath());
+		this.senderUtils = new SenderUtils(this.messageList);
 	}
 
 	public final void disable() {
@@ -80,32 +89,29 @@ public class TopazPlugin {
 	}
 
 	public final FileConfiguration getConfig() {
-		if (config != null) return config;
+		if (this.config != null) return config;
+		if (!configFile.exists()) saveDefaultConfig();
+
 		try (InputStream is = new FileInputStream(configFile)) {
-			config = new FileConfiguration(new Yaml().load(is));
-			return config;
+			this.config = new FileConfiguration(new Yaml().load(is));
+			return this.config;
 		} catch (IOException e) {
-			getLogger().error(e.toString());
-			return null;
+			getLogger().error("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
+			throw new RuntimeException("Cannot load FileConfiguration it TopazPlugin#getConfig()", e);
 		}
 	}
 
 	public final void reloadConfig() {
 		try (InputStream is = new FileInputStream(configFile)) {
-			config = new FileConfiguration(new Yaml().load(is));
+			this.config = new FileConfiguration(new Yaml().load(is));
 		} catch (IOException e) {
 			getLogger().error(e.toString());
 		}
 	}
 
 	public final void saveDefaultConfig() {
-		try {
-			if (!configFile.exists() || configFile.isDirectory()) {
-				if (configFile.createNewFile()) getLogger().info("Base config file created!");
-				else getLogger().info("Cant create base config file!");
-			}
-		} catch (IOException e) {
-			getLogger().error(e.toString());
+		if (!configFile.exists() || configFile.isDirectory()) {
+			saveFromResources("config.yml", configFile.getAbsolutePath());
 		}
 	}
 
@@ -115,6 +121,42 @@ public class TopazPlugin {
 
 	public final Logger getLogger() {
 		return this.pluginLogger;
+	}
+
+	public final SenderUtils getSenderUtils() {
+		return this.senderUtils;
+	}
+
+	// File savers
+	public void saveFromResources(String pathToFile) {
+		FileSaver.saveFromResources(pathToFile, this.getPluginDir().getAbsolutePath(), false, this);
+	}
+
+	public void saveFromResources(String pathToFile, String pathToSave) {
+		FileSaver.saveFromResources(pathToFile, pathToSave, false, this);
+	}
+
+	public void saveFromResources(String pathToFile, String pathToSave, boolean replace) {
+		FileSaver.saveFromResources(pathToFile, pathToSave, replace, this);
+	}
+
+	// Finally checks
+	private void finalChecks() {
+		checker(apiEnabled,		"apiEnabled");
+		checker(pluginID, 		"pluginID");
+		checker(pluginName, 	"pluginName");
+		checker(eventNode, 		"eventNode");
+		checker(pluginDir, 		"pluginDir");
+		checker(configFile, 	"configFile");
+		checker(commandNode,	"commandNode");
+		checker(pluginLogger,	"pluginLogger");
+		checker(senderUtils,	"senderUtils");
+		checker(commandPrefix, 	"commandPrefix");
+		checker(messageList, 	"messageList");
+	}
+
+	private void checker(Object object, String whatIs) {
+		if (object == null) getLogger().debug("{} not found in ({}) TopazPlugin#finalChecker", whatIs, pluginName);
 	}
 
 	// Basic

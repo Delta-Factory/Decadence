@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.net.URL;
@@ -28,9 +29,27 @@ public class Controller {
 
 		try {
 			URLClassLoader classLoader = new URLClassLoader(
-				new URL[]{pathToModule.toURL()},
-				Plugin.class.getClassLoader()
-			);
+				new URL[]{moduleFile.toURI().toURL()},
+				ClassLoader.getSystemClassLoader()
+			) {
+				@Override
+				public URL getResource(String name) {
+					URL url = findResource(name);
+					if (url == null) url = ClassLoader.getSystemClassLoader().getResource(name);
+					return url;
+				}
+
+				@Override
+				public InputStream getResourceAsStream(String name) {
+					URL url = getResource(name);
+					try {
+						return url != null ? url.openStream() : null;
+					} catch (IOException e) {
+						return null;
+					}
+				}
+			};
+
 			LOGGER.info("Try to init module {}", moduleFile.getName());
 
 			Plugin plugin = PluginLoader.getPluginMap().get(moduleID);
@@ -39,13 +58,18 @@ public class Controller {
 			String mainClass = plugin.mainClass();
 			boolean apiStatus = plugin.apiStatus();
 			Class<?> clazz = Class.forName(mainClass, true, classLoader);
-			if (!Plugin.class.isAssignableFrom(clazz)) {
+			if (!TopazPlugin.class.isAssignableFrom(clazz)) {
 				LOGGER.error("Cant load {}. It module main class dont extend #TopazPlugin()", moduleName);
 				return false;
 			}
 			Constructor<?> moduleConstructor = clazz.getDeclaredConstructor();
 			TopazPlugin topazPlugin = (TopazPlugin) moduleConstructor.newInstance();
-			topazPlugin.init(moduleID, moduleName, plugin.commandPrefix(), plugin.enableMsgList(), plugin.apiStatus());
+			topazPlugin.init(moduleID,
+				moduleName,
+				plugin.commandPrefix(),
+				plugin.enableMsgList(),
+				plugin.apiStatus());
+
 			LOADER_MAP.put(moduleID, classLoader);
 			PLUGIN_MAP.put(moduleID, topazPlugin);
 			return true;
