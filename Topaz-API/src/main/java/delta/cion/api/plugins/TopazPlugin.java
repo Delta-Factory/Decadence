@@ -59,7 +59,7 @@ public class TopazPlugin {
 
 	private void enableMessageList() {
 		this.messageList = new File(pluginDir, "messages.yml");
-		FileSaver.saveFromResources("messages.yml", this.messageList, this);
+		saveFromResources("messages.yml", this.messageList.getAbsolutePath());
 		this.senderUtils = new SenderUtils(this.messageList);
 	}
 
@@ -111,7 +111,7 @@ public class TopazPlugin {
 
 	public final void saveDefaultConfig() {
 		if (!configFile.exists() || configFile.isDirectory()) {
-			FileSaver.saveFromResources("config.yml", configFile, this);
+			saveFromResources("config.yml", configFile.getAbsolutePath());
 		}
 	}
 
@@ -127,6 +127,20 @@ public class TopazPlugin {
 		return this.senderUtils;
 	}
 
+	// File savers
+	public void saveFromResources(String pathToFile) {
+		FileSaver.saveFromResources(pathToFile, this.getPluginDir().getAbsolutePath(), false, this);
+	}
+
+	public void saveFromResources(String pathToFile, String pathToSave) {
+		FileSaver.saveFromResources(pathToFile, pathToSave, false, this);
+	}
+
+	public void saveFromResources(String pathToFile, String pathToSave, boolean replace) {
+		FileSaver.saveFromResources(pathToFile, pathToSave, replace, this);
+	}
+
+	// Finally checks
 	private void finalChecks() {
 		checker(apiEnabled,		"apiEnabled");
 		checker(pluginID, 		"pluginID");
