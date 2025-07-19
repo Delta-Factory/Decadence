@@ -1,3 +1,7 @@
+<p align="center">
+	<img src="img/main/Project_Void.png" alt="Project~Void background">
+</p>
+
 <H1 align="center">Decadence</H1>
 
 <p align="center" style="font-size: 15px">
