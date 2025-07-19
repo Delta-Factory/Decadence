@@ -8,25 +8,13 @@
     <b>
     This project created for <a href="https://discord.gg/MEBkvJbe4P">Project~Violette</a>
         <br>
-        <br>
-        Contributors:
-        <br>
-        [Owner] Delta~Cion
+		Support and written by <a href="https://github.com/Nionim">Nionim (DeltaCion)</a>
+		&
+		<a href="https://discord.gg/MEBkvJbe4P">Project~Violette</a>
     </b>
 </p>
 
----
-<H3 align="center">Main~Info</H3>
-
-<p align="center">
-    Main plugin for
-    <a href="https://discord.gg/MEBkvJbe4P">Project~Violette</a>
-    <br>
-	Support and written by <a href="https://github.com/Nionim">Nionim (DeltaCion)</a>
-</p>
-
----
-<H3 align="center">For developers</H3>
+<H1 align="center">For developers</H1>
 
 <p align="center">
     Read the docs plz...
@@ -37,7 +25,7 @@
 </p>
 
 ---
-<H2 align="center">Socials</H2>
+<H1 align="center">Socials</H1>
 
 <p align="center">
   <a href="https://discord.gg/MEBkvJbe4P" target="_blank">
