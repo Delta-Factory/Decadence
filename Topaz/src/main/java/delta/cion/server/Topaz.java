@@ -1,13 +1,15 @@
 package delta.cion.server;
 
-import ch.qos.logback.classic.Level;
 import delta.cion.api.files.utils.FileSaver;
 import delta.cion.api.nodes.CommandNode;
 import delta.cion.server.commands.ModulesReload;
 import delta.cion.server.commands.PluginsList;
 import delta.cion.server.commands.ServerStop;
+import delta.cion.server.commands.UnknownCommand;
 import delta.cion.server.plugins.PluginLoader;
-import ch.qos.logback.classic.Logger;
+import delta.cion.server.utils.LoggerCreator;
+import net.minestom.server.MinecraftServer;
+import net.minestom.server.command.CommandManager;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
@@ -18,16 +20,18 @@ import java.util.Properties;
 
 public class Topaz {
 
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SERVER_INIT");
+
 	private static Properties SERVER_PROPERTIES;
 
+	// Use that later.
+	// LOL
 	private static final ArrayList<String> CONFIGURATIONS = new ArrayList<>(Arrays.asList(
-		"server.properties",
-		"decadence.config.yml"
+		"server.properties"
 	));
 
 	public static void main(String[] args) {
 		saveConfigs();
-		regCommands();
 		init();
 	}
 
@@ -38,20 +42,29 @@ public class Topaz {
 		commandNode.addToNode(new PluginsList());
 		commandNode.addToNode(new ModulesReload());
 		commandNode.registerNode();
+		commandNode.registerNodeObjects();
 	}
 
 	private static void saveConfigs() {
-		for (String s : CONFIGURATIONS) {
+		for (String s : CONFIGURATIONS)
 			FileSaver.saveFromResources(s);
-		}
 	}
 
 	private static void init() {
 		SERVER_PROPERTIES = FileSaver.loadProperties("server.properties");
 		ServerInit server = new ServerInit(getAddress());
-		setDebugLogger();
+		LoggerCreator.setDebugLogger();
 		server.start();
+
+		CommandManager manager = MinecraftServer.getCommandManager();
+		manager.setUnknownCommandCallback(new UnknownCommand());
+		regCommands();
+
 		PluginLoader.init(true);
+	}
+
+	public static Properties getServerProperties() {
+		return SERVER_PROPERTIES;
 	}
 
 	private static SocketAddress getAddress() {
@@ -60,13 +73,6 @@ public class Topaz {
 
 		int server_port = Integer.parseInt(server_port_raw);
 		return new InetSocketAddress(server_ip, server_port);
-	}
-
-	private static void setDebugLogger() {
-		boolean debug = Boolean.parseBoolean(SERVER_PROPERTIES.getProperty("enable-debug"));
-		if (!debug) return;
-		Logger rootLogger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-		rootLogger.setLevel(Level.DEBUG);
 	}
 
 }
