@@ -4,6 +4,7 @@ import delta.cion.api.files.utils.FileSaver;
 import delta.cion.api.nodes.CommandNode;
 import delta.cion.api.files.configurations.FileConfiguration;
 import delta.cion.api.files.utils.SenderUtils;
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public class TopazPlugin {
 
 		this.eventNode = EventNode.all(pluginID);
 		this.commandNode = new CommandNode(pluginID);
+		MinecraftServer.getGlobalEventHandler().addChild(this.eventNode);
 
 		finalChecks();
 		preEnable();

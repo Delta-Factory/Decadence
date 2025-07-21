@@ -21,11 +21,10 @@ public class ServerStop extends Command implements CommandExecutor {
 
 	@Override
 	public void apply(@NotNull CommandSender sender, @NotNull CommandContext context) {
-		LOGGER.info("1");
+		LOGGER.info("Stopping plugins");
 		Controller.disableAll();
-		LOGGER.info("1");
 		MinecraftServer.stopCleanly();
-		LOGGER.info("1");
+		LOGGER.info("Exiting from Topaz!");
 		System.exit(0);
 	}
 

@@ -1,5 +1,6 @@
 package delta.cion.api.nodes;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandManager;
 import net.minestom.server.command.builder.Command;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ public final class CommandNode extends NodeABS<Command> {
 
 	private final Logger LOGGER = LoggerFactory.getLogger("COMMAND_NODE");
 
-	private static final CommandManager COMMAND_MANAGER = new CommandManager();
+	private static final CommandManager COMMAND_MANAGER = MinecraftServer.getCommandManager();
 
 	public CommandNode(String moduleID) {
 		super(moduleID);
