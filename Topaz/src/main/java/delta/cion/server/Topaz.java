@@ -37,10 +37,7 @@ public class Topaz {
 
 	private static void regCommands() {
 		CommandNode commandNode = new CommandNode("topaz_server");
-
-		commandNode.addToNode(new ServerStop());
-		commandNode.addToNode(new PluginsList());
-		commandNode.addToNode(new ModulesReload());
+		commandNode.addToNode(new ServerStop(), new PluginsList(), new ModulesReload());
 		commandNode.registerNode();
 		commandNode.registerNodeObjects();
 	}

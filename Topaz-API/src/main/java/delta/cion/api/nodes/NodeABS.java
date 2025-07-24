@@ -22,22 +22,30 @@ abstract class NodeABS<T> {
         NODES = new HashMap<>();
     }
 
-    public final void addToNode(T object) {
-        if (!OBJECTS.contains(object)) OBJECTS.add(object);
-        if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
-    }
+	public final void addToNode(T object) {
+		if (!OBJECTS.contains(object)) OBJECTS.add(object);
+		if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
+	}
 
-    public final void removeFromNode(T object) {
+	public final void addToNode(T... object) {
+		for (T o : object) addToNode(o);
+	}
+
+	public final void removeFromNode(T object) {
 		OBJECTS.remove(object);
-        if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
-    }
+		if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
+	}
+
+	public final void removeFromNode(T... object) {
+		for (T o : object) removeFromNode(o);
+	}
 
 	public final void removeFromNode(T object, boolean autoUpdate) {
 		removeFromNode(object);
 		if (autoUpdate) updateNode();
 	}
 
-    public final void addToNode(T object, boolean autoUpdate) {
+	public final void addToNode(T object, boolean autoUpdate) {
         addToNode(object);
         if (autoUpdate) updateNode();
     }
