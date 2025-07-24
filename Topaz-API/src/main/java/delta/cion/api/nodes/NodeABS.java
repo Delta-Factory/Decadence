@@ -22,24 +22,38 @@ abstract class NodeABS<T> {
         NODES = new HashMap<>();
     }
 
-    public final void addToNode(T object) {
-        if (!OBJECTS.contains(object)) OBJECTS.add(object);
-        if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
-    }
-
-    public final void removeFromNode(T object) {
-		OBJECTS.remove(object);
-        if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
-    }
-
-	public final void removeFromNode(T object, boolean autoUpdate) {
-		removeFromNode(object);
-		if (autoUpdate) updateNode();
+	public final NodeABS<T> addToNode(T object) {
+		if (!OBJECTS.contains(object)) OBJECTS.add(object);
+		if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
+		return this;
 	}
 
-    public final void addToNode(T object, boolean autoUpdate) {
+	public final NodeABS<T> addToNode(T... object) {
+		for (T o : object) addToNode(o);
+		return this;
+	}
+
+	public final NodeABS<T> removeFromNode(T object) {
+		OBJECTS.remove(object);
+		if (NODES.containsKey(NODE_ID)) NODES.replace(NODE_ID, OBJECTS);
+		return this;
+	}
+
+	public final NodeABS<T> removeFromNode(T... object) {
+		for (T o : object) removeFromNode(o);
+		return this;
+	}
+
+	public final NodeABS<T> removeFromNode(T object, boolean autoUpdate) {
+		removeFromNode(object);
+		if (autoUpdate) updateNode();
+		return this;
+	}
+
+	public final NodeABS<T> addToNode(T object, boolean autoUpdate) {
         addToNode(object);
         if (autoUpdate) updateNode();
+		return this;
     }
 
 	public ArrayList<T> getObjects() {
