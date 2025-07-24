@@ -21,9 +21,9 @@
 <p align="center">
     Read the docs plz...
 	<br>
-	[<a href="docs/en/raws/WhatIsIt.md">DOGS <3 (en)</a>]
+	[<a href="docs/en/raws/WhatIsIt.md">DOGS <3 (en)</a> - very old]
 	<br>
-	[<a href="docs/ru/raws/WhatIsIt.md">DOGS <3 (ru)</a>]
+	[<a href="docs/ru/raws/WhatIsIt.md">DOGS <3 (ru)</a> - new :D]
 </p>
 
 ---
