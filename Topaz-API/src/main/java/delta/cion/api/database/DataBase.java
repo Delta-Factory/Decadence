@@ -7,24 +7,20 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Formatter;
-import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class DataBase implements AutoCloseable {
 
 	private final Logger LOGGER = LoggerFactory.getLogger("DATABASE");
 
-	private enum TYPE {FILE, SERVER};
+	private enum ConnectionType {FILE, SERVER};
 
 	private static final Pattern SQL_INJECTION_PATTERN = Pattern.compile(
 		"(?i)\\b(INSERT|SELECT|DELETE|UPDATE|DROP|ALTER|EXEC|UNION)\\b|[';`]|--"
 	);
 
-	private final TYPE CONNECTION_TYPE;
+	private final ConnectionType CONNECTION_TYPE;
 
 	private final String URL;
 	private final String USER;
@@ -33,7 +29,7 @@ public final class DataBase implements AutoCloseable {
 	private Connection connection;
 
 	public DataBase(String path) {
-		this.CONNECTION_TYPE = TYPE.FILE;
+		this.CONNECTION_TYPE = ConnectionType.FILE;
 
 		if (new File(path).mkdirs())
 			LOGGER.info("Dirs for database created! [{}]", path);
@@ -45,7 +41,7 @@ public final class DataBase implements AutoCloseable {
 	}
 
 	public DataBase(String url, String user, String password) {
-		this.CONNECTION_TYPE = TYPE.SERVER;
+		this.CONNECTION_TYPE = ConnectionType.SERVER;
 
 		this.URL = url;
 		this.USER = user;
@@ -55,7 +51,7 @@ public final class DataBase implements AutoCloseable {
 
 	private void connect() {
 		try {
-			if (CONNECTION_TYPE == TYPE.FILE) this.connection = DriverManager.getConnection(this.URL);
+			if (CONNECTION_TYPE == ConnectionType.FILE) this.connection = DriverManager.getConnection(this.URL);
 			else this.connection = DriverManager.getConnection(this.URL, this.USER, this.PASSWORD);
 		} catch (SQLException e) { LOGGER.error("Cannot connect to DataBase:", e); }
 	}
@@ -91,14 +87,24 @@ public final class DataBase implements AutoCloseable {
 		return execute(String.format(command, (Object) args));
 	}
 
-	public boolean createTable(String tableName, String... columns) {
-		if (!validateData(tableName)) return false;
-		if (!validateData(columns)) return false;
+	// Start of requests
 
-		String sql = String.format("CREATE TABLE IF NOT EXISTS %s (%s)",
-			tableName, String.join(", ", columns));
-		return true;
-	}
+	public boolean createTable() { return false; }
+	public boolean renameTable() { return false; }
+	public boolean deleteTable() { return false; }
+
+	public boolean createColumn() { return false; }
+	public boolean renameColumn() { return false; }
+	public boolean deleteColumn() { return false; }
+
+	public boolean createString() { return false; }
+	public boolean renameString() { return false; }
+	public boolean deleteString() { return false; }
+
+	public Object[] getString() { return null; }
+	public Object[] getFromString() { return null; }
+
+	// End of requests
 
 	private boolean validateData(String... params) {
 		if (params == null || params.length < 1) return false;
