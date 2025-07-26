@@ -1,8 +1,8 @@
 package delta.cion.api.nodes;
 
-import delta.cion.api.permissions.Permission;
+import delta.cion.api.permissions.PermissionedPlayer;
 
-public class PermissionNode extends NodeABS<Permission>{
+public class PermissionNode extends NodeABS<PermissionedPlayer>{
 
 	public PermissionNode(String nodeID) {
 		super(nodeID);
