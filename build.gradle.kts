@@ -12,7 +12,7 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(22)
         }
     }
 
@@ -20,8 +20,7 @@ allprojects {
         compileOnly("net.minestom:minestom-snapshots:$minestomVersion")
         compileOnly("org.yaml:snakeyaml:2.4")
         compileOnly("ch.qos.logback:logback-classic:1.5.18")
-        compileOnly("com.mysql:mysql-connector-j:9.2.0")
-        compileOnly("com.h2database:h2:2.3.232")
+		implementation("org.xerial:sqlite-jdbc:3.42.0.0")
     }
 
     repositories {

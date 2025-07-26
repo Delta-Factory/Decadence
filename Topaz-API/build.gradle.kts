@@ -31,8 +31,7 @@ dependencies {
 	implementation("net.minestom:minestom-snapshots:$minestomVersion")
 	implementation("org.yaml:snakeyaml:2.4")
 	implementation("ch.qos.logback:logback-classic:1.5.18")
-	implementation("com.mysql:mysql-connector-j:9.2.0")
-	implementation("com.h2database:h2:2.3.232")
+	implementation("org.xerial:sqlite-jdbc:3.42.0.0")
 }
 
 tasks {
