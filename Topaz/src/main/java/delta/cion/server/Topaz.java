@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
+import java.util.*;
 
 public class Topaz {
 
@@ -24,14 +22,17 @@ public class Topaz {
 
 	private static Properties SERVER_PROPERTIES;
 
-	// Use that later.
-	// LOL
-	private static final ArrayList<String> CONFIGURATIONS = new ArrayList<>(Arrays.asList(
-		"server.properties"
+	// Maybe it a bad solution but I use it!
+	private static final Set<String> CONFIGURATIONS = new HashSet<>(List.of(
+		"server.properties",
+		"decadence.conf.yml"
 	));
 
 	public static void main(String[] args) {
-		saveConfigs();
+		// Save configurations
+		for (String s : CONFIGURATIONS)
+			FileSaver.saveFromResources(s);
+
 		init();
 	}
 
@@ -40,11 +41,6 @@ public class Topaz {
 		commandNode.addToNode(new ServerStop(), new PluginsList(), new ModulesReload());
 		commandNode.registerNode();
 		commandNode.registerNodeObjects();
-	}
-
-	private static void saveConfigs() {
-		for (String s : CONFIGURATIONS)
-			FileSaver.saveFromResources(s);
 	}
 
 	private static void init() {
