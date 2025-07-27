@@ -1,6 +1,4 @@
-<p align="center">
-	<img src="img/main/Project_Void.png" alt="Project~Void background">
-</p>
+<img src="https://raw.githubusercontent.com/Delta-Factory/.github/refs/heads/main/profile/img/Project_Void.png" alt="Project~Void background">
 
 <H1 align="center">Decadence</H1>
 
