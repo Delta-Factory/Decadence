@@ -1,4 +1,4 @@
-package delta.cion.api.files.configurations;
+package delta.cion.api.files.yaml;
 
 public abstract class BaseConfiguration {
 
@@ -20,6 +20,6 @@ public abstract class BaseConfiguration {
 	public abstract boolean getBoolean(String path);
 	public abstract boolean getBoolean(String path, boolean def);
 
-	public abstract boolean itIs(String path, Class<?> object);
+	public abstract boolean is(String path, Class<?> object);
 
 }

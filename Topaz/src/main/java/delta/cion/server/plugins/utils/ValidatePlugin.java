@@ -1,6 +1,6 @@
 package delta.cion.server.plugins.utils;
 
-import delta.cion.api.files.configurations.FileConfiguration;
+import delta.cion.api.files.yaml.FileConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;

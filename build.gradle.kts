@@ -20,6 +20,7 @@ allprojects {
         compileOnly("net.minestom:minestom-snapshots:$minestomVersion")
         compileOnly("org.yaml:snakeyaml:2.4")
         compileOnly("ch.qos.logback:logback-classic:1.5.18")
+		implementation("com.google.code.gson:gson:2.13.1")
 		implementation("org.xerial:sqlite-jdbc:3.42.0.0")
     }
 
@@ -29,5 +30,6 @@ allprojects {
 
 	tasks.withType<JavaCompile> {
 		options.encoding = "UTF-8"
+		options.release = 21
 	}
 }

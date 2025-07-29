@@ -2,7 +2,7 @@ package delta.cion.api.plugins;
 
 import delta.cion.api.files.utils.FileSaver;
 import delta.cion.api.nodes.CommandNode;
-import delta.cion.api.files.configurations.FileConfiguration;
+import delta.cion.api.files.yaml.FileConfiguration;
 import delta.cion.api.files.utils.SenderUtils;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.Event;
