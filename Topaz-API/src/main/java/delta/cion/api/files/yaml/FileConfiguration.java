@@ -1,5 +1,7 @@
 package delta.cion.api.files.yaml;
 
+import delta.cion.api.files.BaseConfiguration;
+
 import java.util.List;
 import java.util.Map;
 

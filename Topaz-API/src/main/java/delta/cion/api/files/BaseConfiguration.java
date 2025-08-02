@@ -1,4 +1,4 @@
-package delta.cion.api.files.yaml;
+package delta.cion.api.files;
 
 public abstract class BaseConfiguration {
 
