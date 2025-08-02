@@ -17,7 +17,7 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("net.minestom:minestom-snapshots:$minestomVersion")
+        compileOnly("net.minestom:minestom:$minestomVersion")
         compileOnly("org.yaml:snakeyaml:2.4")
         compileOnly("ch.qos.logback:logback-classic:1.5.18")
 		implementation("com.google.code.gson:gson:2.13.1")
