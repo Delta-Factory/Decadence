@@ -1,8 +1,23 @@
 package delta.cion.api.permissions;
 
+import delta.cion.api.nodes.PermissionNode;
 import net.minestom.server.entity.Player;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class PermissionManager {
+
+	record PlayerPermissions(Player player, List<Permission> permissions) {}
+
+	private final Map<Player, List<Permission>> playerPermissions = new HashMap<>();
+	private final List<PermissionNode> permissionNodes = new ArrayList<>();
+
+	public PermissionManager() {
+
+	}
 
 
 
