@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:Decadence-API/src/main/java/decadence/api/files/BaseConfiguration.java
-package delta.cion.api.files;
-========
 package decadence.api.files.configurations;
->>>>>>>> origin/dev-main:Decadence-API/src/main/java/decadence/api/files/configurations/BaseConfiguration.java
 
 public abstract class BaseConfiguration {
 

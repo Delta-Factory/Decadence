@@ -1,6 +1,6 @@
 package decadence.api.permissions;
 
-import delta.cion.api.nodes.PermissionNode;
+import decadence.api.nodes.PermissionNode;
 import net.minestom.server.entity.Player;
 
 import java.util.ArrayList;

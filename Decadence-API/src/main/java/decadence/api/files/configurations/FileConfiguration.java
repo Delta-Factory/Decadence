@@ -1,10 +1,4 @@
-<<<<<<<< HEAD:Decadence-API/src/main/java/decadence/api/files/yaml/FileConfiguration.java
-package delta.cion.api.files.yaml;
-
-import delta.cion.api.files.BaseConfiguration;
-========
 package decadence.api.files.configurations;
->>>>>>>> origin/dev-main:Decadence-API/src/main/java/decadence/api/files/configurations/FileConfiguration.java
 
 import java.util.List;
 import java.util.Map;
