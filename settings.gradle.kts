@@ -4,4 +4,4 @@
 
 rootProject.name = "DECADENCE"
 
-include("Topaz", "Topaz-API", "Topaz-Plugin")
+include("Decadence-CORE", "Decadence-API", "Plugin-Test")

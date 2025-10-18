@@ -7,12 +7,16 @@
 		Такс.. Пока самой апишки нет на maven репозиториях - Вам придется либо скопировать её в проект, либо самостоятельно сбилдить.
 		<br>
 		Для билда - Можно прописать:
-		"./gradlew :Topaz-API:publishToMavenLocal"
+		"./gradlew :Decadence-API:publishToMavenLocal"
 		<br><br>
 		Строка, требуемая для импорта в проект будет выведена во время билда.
 		<br>
 		Будет что-то типо:
-		"delta.cion.api:topaz_api:0.0.0-DEV"
+		"decadence.api:topaz_api:0.0.0-DEV"
 		<br>
 		<img src="../../../img/docs/ApiImportStringSample.png" alt="Строка импорта api">
+		<br>
+		Скриншот устарел,
+		<br>
+		`delta.cion` было заменено на `decadence` во всех пакетах
 	</p>
