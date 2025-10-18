@@ -1,0 +1,9 @@
+#
+#       DataBases
+#
+Server-DataBases:
+    main:
+        user: "root"
+        pass: "very!cool!password"
+        # "local" for local .db file
+        url: "0.0.0.0:25566"

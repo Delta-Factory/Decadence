@@ -25,7 +25,8 @@ public class Decadence {
 	// Maybe it a bad solution but I use it!
 	private static final Set<String> CONFIGURATIONS = new HashSet<>(List.of(
 		"server.properties",
-		"decadence.conf.yml"
+		"server.yml",
+		"databases.yml"
 	));
 
 	public static void main(String[] args) {

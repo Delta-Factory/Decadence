@@ -1,9 +1,0 @@
-DataBase:
-    # local or server
-    # if local - database located in ./configuration/topaz.server.db
-    Type: "local"
-
-    # maybe 0.0.0.0:XX if located with server but on other port
-    URL: "0.0.0.0:25566"
-    USER: "VERY COOL DATABASE USER"
-    PASSWORD: "VERY STRONG PASSWORD"
