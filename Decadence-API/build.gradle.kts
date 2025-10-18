@@ -28,7 +28,7 @@ group = "delta.cion.api"
 version = apiVersion
 
 dependencies {
-	implementation("net.minestom:minestom-snapshots:$minestomVersion")
+	implementation("net.minestom:minestom:$minestomVersion")
 	implementation("org.yaml:snakeyaml:2.4")
 	implementation("ch.qos.logback:logback-classic:1.5.18")
 	implementation("org.xerial:sqlite-jdbc:3.42.0.0")

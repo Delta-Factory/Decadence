@@ -100,7 +100,7 @@ public class FileConfiguration extends BaseConfiguration {
 	}
 
 	@Override
-	public boolean itIs(String path, Class<?> objectClass) {
+	public boolean is(String path, Class<?> objectClass) {
 		Object obj = get(path);
 		return objectClass.isInstance(obj);
 	}
