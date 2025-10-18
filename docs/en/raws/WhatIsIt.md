@@ -31,7 +31,7 @@
 	<br>
 	<b>== TODO ==</b>
 	<br>
-	<a href="../TODO/main_todo.md">Main TODO</a>
+	<a href="../TODO/main_todo.md">decadence.tests.Main TODO</a>
 	<br>
 </p>
 

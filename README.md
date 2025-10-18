@@ -22,6 +22,8 @@
 	[<a href="docs/en/raws/WhatIsIt.md">DOGS <3 (en)</a> - very old]
 	<br>
 	[<a href="docs/ru/raws/WhatIsIt.md">DOGS <3 (ru)</a> - new :D]
+	<br><br>
+	Английская документация устарела, читайте блять с переводчиком.
 </p>
 
 ---
