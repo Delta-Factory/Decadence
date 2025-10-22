@@ -10,6 +10,7 @@ import decadence.server.plugins.PluginLoader;
 import decadence.server.utils.LoggerCreator;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandManager;
+import net.minestom.server.instance.InstanceContainer;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
@@ -25,7 +26,8 @@ public class Decadence {
 	// Maybe it a bad solution but I use it!
 	private static final Set<String> CONFIGURATIONS = new HashSet<>(List.of(
 		"server.properties",
-		"decadence.conf.yml"
+		"server.yml",
+		"databases.yml"
 	));
 
 	public static void main(String[] args) {

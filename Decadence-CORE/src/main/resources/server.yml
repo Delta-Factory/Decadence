@@ -1,0 +1,24 @@
+#
+#       Online modes and auth method
+#
+Server-Auth:
+    # use AuthMe-like auth system
+    enable-registration: false
+    # online/offine/velocity/custom (setup ur url to auth-url)
+    server-mode: online
+
+    # work with custom auth only
+    # see protocol docs in the docs (lol)
+    auth-url: "https://example.com/auth"
+
+#
+#       Customize ur server
+#
+Server-Customization:
+    # work on language in progress
+    server-language: en
+
+    # -1 for inf lol
+    max-players: -1
+    hide-player-list: false
+

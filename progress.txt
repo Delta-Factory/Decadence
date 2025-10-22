@@ -1,0 +1,27 @@
+[ +- ] rewrite
+[ - ]  remove
+[ + ]  write new
+
+api
+
++- databases in the api
++ worlds handler
++ permissions
++- file work
++ mobs handler (and AI capab (not in core))
+- placeholders
+- sender
++- plugins
++ api capab (and with plugins)
+
+core
+
++/+- base commands
++ customization anywhere (motd/lists/idk what and)
++- console (+ normal logs)
++- init
+
+new core lmao
+
+other
+????????
