@@ -2,6 +2,8 @@
 #       Online modes and auth method
 #
 Server-Auth:
+    # use AuthMe-like auth system
+    enable-registration: false
     # online/offine/velocity/custom (setup ur url to auth-url)
     server-mode: online
 
@@ -13,7 +15,7 @@ Server-Auth:
 #       Customize ur server
 #
 Server-Customization:
-    # Work on language in progress
+    # work on language in progress
     server-language: en
 
     # -1 for inf lol
