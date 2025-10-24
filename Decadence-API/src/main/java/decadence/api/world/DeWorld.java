@@ -1,8 +1,8 @@
 package decadence.api.world;
 
-import net.minestom.server.instance.IChunkLoader;
+import java.util.List;
 
 public interface DeWorld {
 	String worldName();
-	IChunkLoader chunkLoader();
+	List<DeDimension> dimensionList();
 }
